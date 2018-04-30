@@ -1,13 +1,8 @@
 /**
- *  ITEC 4260
- *  Dr. Im
- *
- *  Assignment 6: Utilizing Mockito library to construct mock objects and test it's behaviors
- *
- *  Created by Henry Huynh
- *  Georgia Gwinnett College
-
- *  Date: 4/09/2018
+ * Created by: Henry Huynh
+ * ITEC 4260 Software Testing & QA
+ * Assignment 6
+ * Spring 2018
  */
 import org.junit.Assert;
 import org.junit.Before;
