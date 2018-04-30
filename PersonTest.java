@@ -10,20 +10,43 @@
  *  Date: 4/09/2018
  */
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.mockito.Mockito.*;
 
 public class PersonTest {
 
-    CacheManager cacheManager = mock(CacheManager.class);
-    DiskManager diskManager = mock(DiskManager.class);
-    int phoneNumber = 1234;
-    int phoneNumberOnCache = 5678;
-    int phoneNumberOnDisk = 4532;
-    Person personStoreToCache = new Person(cacheManager, diskManager);
-    Person personStoreToDisk = new Person(cacheManager, diskManager);
+    // Instance variables and objects
+    private CacheManager cacheManager;
+    private DiskManager diskManager;
+    private int phoneNumber;
+    private int phoneNumberOnCache;
+    private int phoneNumberOnDisk;
+    private Person personStoreToCache;
+    private Person personStoreToDisk;
 
-    // Testing for person not in the Disk nor the Cache
+    /**
+     * The setup() will initialize all instance variables and mock objects
+     * This will be executed before anything else
+     */
+    @Before
+    public void setup() {
+
+        // Initializing all instances and mock objects
+        cacheManager = mock(CacheManager.class);
+        diskManager = mock(DiskManager.class);
+        phoneNumber = 1234;
+        phoneNumberOnCache = 5678;
+        phoneNumberOnDisk = 4532;
+
+        personStoreToCache = new Person(cacheManager, diskManager);
+        personStoreToDisk = new Person(cacheManager, diskManager);
+    }
+
+    /**
+     * The checkPersonNotOnDiskOrCache() will test if a person object is stored into the disk or cache
+     */
     @Test
     public void checkPersonNotOnDiskOrCache() {
 
@@ -40,7 +63,9 @@ public class PersonTest {
         verify(diskManager, times(1)).getPerson(phoneNumber);
     }
 
-    // Testing for person in cache
+    /**
+     * The checkPersonInCache() will test if the person object is stored into Cache
+     */
     @Test
     public void checkPersonInCache() {
 
@@ -58,14 +83,14 @@ public class PersonTest {
         verify(cacheManager, times(2)).getPerson(phoneNumberOnCache);
     }
 
-
-    // Testing for person stored on Disk but not in Cache
+    /**
+     * The checkPersonInDisk() will test for person object stored on Disk but not in Cache
+     */
     @Test
     public void checkPersonInDisk(){
 
-        /* Executing Mockito method to check if the getPerson() is called in Disk
-           and checking if it is not in Cache memory
-         */
+        //Executing Mockito method to check if the getPerson() is called in Disk
+        //and checking if it is not in Cache memory
         when(cacheManager.getPerson(phoneNumberOnDisk)).thenReturn(null);
         when(diskManager.getPerson(phoneNumberOnDisk)).thenReturn(personStoreToDisk);
         Person person = diskManager.getPerson(phoneNumberOnDisk);
